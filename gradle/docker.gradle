@@ -1,0 +1,15 @@
+task dockerMultiUp(type: Exec) {
+    commandLine 'bash', '-c', 'bash createContainers.sh'
+}
+
+task dockerMultiConf(type: Exec) {
+    commandLine 'bash', '-c', 'bash configureContainers.sh'
+}
+
+task dockerMultiDown(type: Exec) {
+    commandLine 'bash', '-c', 'bash removeContainers.sh'
+}
+
+task dockerUp(type: Exec) {
+    commandLine 'bash', '-c', 'bash singleContainer.sh'
+}

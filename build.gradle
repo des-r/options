@@ -1,0 +1,56 @@
+buildscript {
+    dependencies {
+        classpath files("/Users/dalerobinson/Library/Application Support/JetBrains/DataGrip2020.2/jdbc-drivers/Oracle/12.2.0.1/ojdbc8.jar")
+    }
+}
+
+plugins {
+    id 'java'
+    id "io.spring.dependency-management" version "1.0.10.RELEASE" apply true
+    id "org.flywaydb.flyway" version "3.2.1"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework:spring-framework-bom:5.2.10.RELEASE'
+    }
+}
+
+group 'io.quell'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'org.springframework:spring-core'
+    compile 'org.springframework:spring-context'
+    compile 'org.springframework:spring-orm'
+    compile files('/Users/dalerobinson/Library/Application Support/JetBrains/DataGrip2020.2/jdbc-drivers/Oracle/12.2.0.1/ojdbc8.jar')
+
+    compile 'org.hibernate:hibernate-core:5.4.23.Final'
+
+    compile 'org.projectlombok:lombok:1.18.16'
+
+    testCompile 'org.springframework:spring-test'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+apply from: "$projectDir/gradle/config.gradle"
+apply from: "$projectDir/gradle/flyway.gradle"
+apply from: "$projectDir/gradle/docker.gradle"
+
+jar {
+    manifest {
+        attributes "Main-Class": "io.quell.SpringApplication"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

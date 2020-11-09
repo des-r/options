@@ -1,0 +1,11 @@
+flyway {
+    url = project.config.db.url
+    user = project.config.db.dbUsername
+    password = project.config.db.dbPassword
+    schemas = [project.config.db.dbUsername]
+    println(schemas)
+    placeholders = [
+            'currentSchema': project.config.db.dbBasicUser
+    ]
+    locations = ['db']
+}
